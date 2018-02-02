@@ -13,6 +13,9 @@ SCRAPE_NEWS_TASK_QUEUE_NAME = 'scrape-news-task-queue'
 DEDUPE_NEWS_TASK_QUEUE_URL = 'amqp://uuumeniz:tz3uYZNY0UsHuw-v8HE4Y5jmoixN1sGI@termite.rmq.cloudamqp.com/uuumeniz'
 DEDUPE_NEWS_TASK_QUEUE_NAME = 'dedupe-news-task-queue'
 
+CLICK_LOG_TASK_QUEUE_URL = 'amqp://xyqyirri:hUc703b6jJtlLc2XuFyKoSCOu1MMx9im@termite.rmq.cloudamqp.com/xyqyirri'
+CLICK_LOG_TASK_QUEUE_NAME = 'tap-news-click-log-task-queue'
+
 def clearQueue(queue_url, queue_name):
     scrape_news_queue_client = CloudAMQPClient(queue_url, queue_name)
 
@@ -30,3 +33,4 @@ def clearQueue(queue_url, queue_name):
 if __name__ == "__main__":
     clearQueue(SCRAPE_NEWS_TASK_QUEUE_URL, SCRAPE_NEWS_TASK_QUEUE_NAME)
     clearQueue(DEDUPE_NEWS_TASK_QUEUE_URL, DEDUPE_NEWS_TASK_QUEUE_NAME)
+    clearQueue(CLICK_LOG_TASK_QUEUE_URL,CLICK_LOG_TASK_QUEUE_NAME)

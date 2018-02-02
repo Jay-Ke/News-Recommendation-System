@@ -33,8 +33,9 @@ def getPreferenceForUser(user_id):
     # If the first preference is same as the last one, the preference makes
     # no sense.
     if isclose(float(sorted_value_list[0]), float(sorted_value_list[-1])):
+        print("Something happen")
         return []
-
+    print("Finished")
     return sorted_list
 
 

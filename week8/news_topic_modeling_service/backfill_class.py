@@ -9,7 +9,7 @@ import news_topic_modeling_service_client
 
 if __name__ == '__main__':
     db = mongodb_client.get_db()
-    cursor = db['news'].find({})
+    cursor = db['newsTest'].find({})
     count = 0
     for news in cursor:
         count += 1
@@ -19,4 +19,4 @@ if __name__ == '__main__':
             title = news['title']
             topic = news_topic_modeling_service_client.classify(title)
             news['class'] = topic
-            db['news'].replace_one({'digest': news['digest']}, news, upsert=True)
+            db['newsTest'].replace_one({'digest': news['digest']}, news, upsert=True)

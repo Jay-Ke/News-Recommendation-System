@@ -20,7 +20,7 @@ SCRAPE_NEWS_TASK_QUEUE_URL = 'amqp://bbumfosv:GpUp2-3VQ9_qtP1FG_hQspRivnz3C8Ks@t
 #SCRAPE_NEWS_TASK_QUEUE_URL ='amqp://uuumeniz:tz3uYZNY0UsHuw-v8HE4Y5jmoixN1sGI@termite.rmq.cloudamqp.com/uuumeniz'
 SCRAPE_NEWS_TASK_QUEUE_NAME = 'scrape-news-task-queue' 
 
-'''NEWS_SOURCES = [
+NEWS_SOURCES = [
     'bbc-news',
     'bbc-sport',
     'bloomberg',
@@ -32,11 +32,11 @@ SCRAPE_NEWS_TASK_QUEUE_NAME = 'scrape-news-task-queue'
     'the-new-york-times',
     'the-wall-street-journal',
     'the-washington-post'
-]'''
-
-NEWS_SOURCES = [
-    'cnn'
 ]
+
+'''NEWS_SOURCES = [
+    'cnn'
+]'''
 
 redis_client = redis.StrictRedis(REDIS_HOST, REDIS_PORT)
 cloudAMQP_client = CloudAMQPClient(SCRAPE_NEWS_TASK_QUEUE_URL, SCRAPE_NEWS_TASK_QUEUE_NAME)

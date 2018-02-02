@@ -10,19 +10,21 @@ from datetime import datetime
 sys.path.append(os.path.join(os.path.dirname(__file__), '../common/'))
 
 import mongodb_client
+import news_recommendation_service_client
 from cloudAMQP_client import CloudAMQPClient
 NEWS_TABLE_NAME = "news"
 REDIS_HOST = "localhost"
 REDIS_PORT = 6379
 
-NEWS_TABLE_NAME = "news"
+NEWS_TABLE_NAME = "newsTest"
 CLICK_LOGS_TABLE_NAME = 'click_logs'
 
 NEWS_LIMIT = 100
 NEWS_LIST_BATCH_SIZE = 10
 USER_NEWS_TIME_OUT_IN_SECONDS = 60
 
-LOG_CLICKS_TASK_QUEUE_URL = 'amqp://xyqyirri:hUc703b6jJtlLc2XuFyKoSCOu1MMx9im@termite.rmq.cloudamqp.com/xyqyirri'
+#LOG_CLICKS_TASK_QUEUE_URL = 'amqp://xyqyirri:hUc703b6jJtlLc2XuFyKoSCOu1MMx9im@termite.rmq.cloudamqp.com/xyqyirri'
+LOG_CLICKS_TASK_QUEUE_URL = 'amqp://bbumfosv:GpUp2-3VQ9_qtP1FG_hQspRivnz3C8Ks@termite.rmq.cloudamqp.com/bbumfosv'
 LOG_CLICKS_TASK_QUEUE_NAME = 'tap-news-click-log-task-queue'
 
 redis_client = redis.StrictRedis(REDIS_HOST, REDIS_PORT, db=0)
@@ -61,22 +63,26 @@ def getNewsSummariesForUser(user_id, page_num):
 
         sliced_news = total_news[begin_index:end_index]
     # Get preference for the user
-    # preference = news_recommendation_service_client.getPreferenceForUser(user_id)
-    # topPreference = None
+    preference = news_recommendation_service_client.getPreferenceForUser(user_id)
+    print("Get preference model")
+    topPreference = None
 
-    # if preference is not None and len(preference) > 0:
-    #     topPreference = preference[0]
+    if preference is not None and len(preference) > 0:
+        topPreference = preference[0]
 
-    # for news in sliced_news:
-    #     # Remove text field to save bandwidth.
-    #     del news['text']
-    #     if news['class'] == topPreference:
-    #         news['reason'] = 'Recommend'
-    #     if news['publishedAt'].date() == datetime.today().date():
-    #         news['time'] = 'today'
+    for news in sliced_news:
+        # Remove text field to save bandwidth.
+        #del news['text']
+        if news['class'] == topPreference:
+            news['reason'] = 'Recommend'
+        if news['publishedAt'].date() == datetime.today().date():
+            news['time'] = 'today'
     return json.loads(dumps(sliced_news))
 
 def logNewsClickForUser(user_id,news_id):
+
+    print("click log event called")
+
     message={'userId':user_id,'newsId':news_id,'timestamp': str(datetime.utcnow())}
     cloudAMQP_client.sendMessage(message)
 

@@ -51,10 +51,13 @@ var rpc_client = require('../rpc_client/rpc_client');
     rpc_client.getNewsSummariesForUser(user_id, page_num, function(response) {
       res.json(response);
     });
+    //next();
   });
 
   router.post('/userId/:userId/newsId/:newsId',function (req,res,next){
+
     console.log('logging click news');
+
     user_id=req.params['userId'];
     newsId=req.params['newsId'];
 

@@ -61,7 +61,7 @@ def handle_message(msg):
     title = task['title']
     if title is not None:
         topic = news_topic_modeling_service_client.classify(title)
-        taks['class']=topic
+        task['class']=topic
     db[NEWS_TABLE_NAME].replace_one({'digest': task['digest']}, task, upsert=True)
 
 while True:

@@ -30,10 +30,11 @@ ALPHA = 0.1
 
 SLEEP_TIME_IN_SECONDS = 1
 
-LOG_CLICKS_TASK_QUEUE_URL = 'amqp://xyqyirri:hUc703b6jJtlLc2XuFyKoSCOu1MMx9im@termite.rmq.cloudamqp.com/xyqyirri'
-LOG_CLICKS_TASK_QUEUE_NAME = 'log-task-queue'
+#LOG_CLICKS_TASK_QUEUE_URL = 'amqp://xyqyirri:hUc703b6jJtlLc2XuFyKoSCOu1MMx9im@termite.rmq.cloudamqp.com/xyqyirri'
+LOG_CLICKS_TASK_QUEUE_URL = 'amqp://bbumfosv:GpUp2-3VQ9_qtP1FG_hQspRivnz3C8Ks@termite.rmq.cloudamqp.com/bbumfosv'
+LOG_CLICKS_TASK_QUEUE_NAME = 'tap-news-click-log-task-queue'
 PREFERENCE_MODEL_TABLE_NAME = "user_preference_model"
-NEWS_TABLE_NAME = "news"
+NEWS_TABLE_NAME = "newsTest"
 
 cloudAMQP_client = CloudAMQPClient(LOG_CLICKS_TASK_QUEUE_URL, LOG_CLICKS_TASK_QUEUE_NAME)
 
@@ -90,6 +91,7 @@ def handle_message(msg):
 
     print(model)
     db[PREFERENCE_MODEL_TABLE_NAME].replace_one({'userId': userId}, model, upsert=True)
+    print("Successfully updated")
 
 def run():
     while True:
